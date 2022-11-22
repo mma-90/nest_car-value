@@ -1,0 +1,31 @@
+### CREATE A NEW USER
+POST http://localhost:3000/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "password":"password",
+    "email": "ali@gmail.com"
+}
+
+
+### UPDATE USER
+PATCH http://localhost:3000/auth/9 HTTP/1.1
+content-type: application/json
+
+{
+    "password":"password"
+}
+
+### Find All Users (can add query email)
+# GET http://localhost:3000/auth HTTP/1.1
+GET http://localhost:3000/auth?email=mohamed@gmail.com HTTP/1.1
+
+
+### Find One User
+GET http://localhost:3000/auth/2 HTTP/1.1
+
+
+### DELETE A USER
+DELETE http://localhost:3000/auth/62222 HTTP/1.1

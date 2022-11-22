@@ -11,10 +11,10 @@ import { Report } from './reports/reports.entity';
   imports: [
     TypeOrmModule.forRoot({
       // creating db connection
-      type: 'sqlite',
-      database: 'db.sqlite',
+      type: 'sqlite', //db type
+      database: 'db.sqlite', //db name
       entities: [User, Report],
-      synchronize: true,
+      synchronize: true, //not recommended in production, work as hot fast migration
     }),
     UsersModule,
     ReportsModule,
