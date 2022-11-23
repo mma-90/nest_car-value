@@ -9,6 +9,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  Request,
+  Session,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -19,8 +22,10 @@ import {
   SerializeInterceptor,
 } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
-import { Expose } from 'class-transformer';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDto) // applied on class level
@@ -36,8 +41,34 @@ export class UsersController {
   }
 
   @Post('/signin')
-  signin(@Body() body: CreateUserDto) {
-    return this.authService.signIn(body.email, body.password);
+  async signin(
+    @Body() body: CreateUserDto,
+    @Session() session: Record<string, any>,
+  ) {
+    const user = await this.authService.signIn(body.email, body.password);
+    session.userId = user.id;
+    return user;
+  }
+
+  @Get('/signout')
+  signOut(@Session() session: Record<string, any>) {
+    session.userId = null;
+  }
+
+  // @Get('/me')
+  // whoAmI(@Session() session: Record<string, any>) {
+  //   return this.userService.findOne(session.userId);
+  // }
+
+  /*
+      What I need ? 
+      I need to get current user id from request session and then retrieve it from db using repo service
+      */
+
+  @Get('/me')
+  @UseInterceptors(CurrentUserInterceptor)
+  whoAmI(@CurrentUser() user: User) {
+    return user;
   }
 
   // applied on function level
@@ -45,7 +76,7 @@ export class UsersController {
   // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
   async findUser(@Param('id', ParseIntPipe) id: number) {
-    console.log('Handler is running');
+    // console.log('Handler is running');
 
     const user = await this.userService.findOne(id);
 

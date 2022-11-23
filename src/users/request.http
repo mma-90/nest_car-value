@@ -16,8 +16,25 @@ content-type: application/json
 
 {
     "email": "hello@gmail.com",
-    "password":"password"
+    "password":"passwords"
 }
+
+### SIGNOUT
+GET http://localhost:3000/auth/signout HTTP/1.1
+
+
+
+### ME
+GET http://localhost:3000/auth/me HTTP/1.1
+
+
+### Find All Users (can add query email)
+# GET http://localhost:3000/auth HTTP/1.1
+GET http://localhost:3000/auth?email=mohamed@gmail.com HTTP/1.1
+
+
+### Find One User
+GET http://localhost:3000/auth/2 HTTP/1.1
 
 
 ### UPDATE USER
@@ -27,14 +44,6 @@ content-type: application/json
 {
     "password":"password"
 }
-
-### Find All Users (can add query email)
-# GET http://localhost:3000/auth HTTP/1.1
-GET http://localhost:3000/auth?email=mohamed@gmail.com HTTP/1.1
-
-
-### Find One User
-GET http://localhost:3000/auth/2 HTTP/1.1
 
 
 ### DELETE A USER

@@ -31,6 +31,7 @@ export class SerializeInterceptor implements NestInterceptor {
     // console.log('I run before request handler');
     // console.log(context); //context is request object
 
+    // handle() make handle function in controller run first
     return next.handle().pipe(
       map((data) => {
         // console.log('I run after request handler', data);
