@@ -3,17 +3,26 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import {
+  Serialize,
+  SerializeInterceptor,
+} from 'src/interceptors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
+import { Expose } from 'class-transformer';
 
 @Controller('auth')
+@Serialize(UserDto) // applied on class level
 export class UsersController {
   constructor(private userService: UsersService) {}
 
@@ -23,9 +32,18 @@ export class UsersController {
     return this.userService.create(body.email, body.password);
   }
 
+  // applied on function level
+  // @Serialize(UserDto) //custom decorator
+
+  // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
-  findUser(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOne(id);
+  async findUser(@Param('id', ParseIntPipe) id: number) {
+    console.log('Handler is running');
+
+    const user = await this.userService.findOne(id);
+
+    if (!user) throw new NotFoundException('user not found');
+    return user;
   }
 
   @Get()
