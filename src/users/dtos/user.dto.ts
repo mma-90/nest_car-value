@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Exclude } from 'class-transformer';
 
 export class UserDto {
   @Expose() // share with outside
@@ -6,4 +6,8 @@ export class UserDto {
 
   @Expose()
   email: string;
+
+  // @Exclude()
+  // password: string;
+  // you need to disable  excludeExtraneousValues: true in interceptor transform plainInstance
 }

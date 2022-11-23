@@ -1,4 +1,4 @@
-### CREATE A NEW USER
+### SIGNUP USER
 POST http://localhost:3000/auth/signup HTTP/1.1
 content-type: application/json
 
@@ -6,7 +6,17 @@ content-type: application/json
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT",
     "password":"password",
-    "email": "ali@gmail.com"
+    "email": "ali2@gmail.com"
+}
+
+
+### SIGNIN USER
+POST http://localhost:3000/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "hello@gmail.com",
+    "password":"password"
 }
 
 
@@ -28,4 +38,4 @@ GET http://localhost:3000/auth/2 HTTP/1.1
 
 
 ### DELETE A USER
-DELETE http://localhost:3000/auth/62222 HTTP/1.1
+DELETE http://localhost:3000/auth/11 HTTP/1.1

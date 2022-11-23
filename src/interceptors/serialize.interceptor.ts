@@ -28,12 +28,12 @@ export class SerializeInterceptor implements NestInterceptor {
   constructor(private dto: any) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('I run before request handler');
+    // console.log('I run before request handler');
     // console.log(context); //context is request object
 
     return next.handle().pipe(
       map((data) => {
-        console.log('I run after request handler', data);
+        // console.log('I run after request handler', data);
 
         return plainToInstance(this.dto, data, {
           excludeExtraneousValues: true,

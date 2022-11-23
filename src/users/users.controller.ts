@@ -20,21 +20,28 @@ import {
 } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { Expose } from 'class-transformer';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 @Serialize(UserDto) // applied on class level
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
-    console.log(body);
-    return this.userService.create(body.email, body.password);
+  signup(@Body() body: CreateUserDto) {
+    return this.authService.signUp(body.email, body.password);
+  }
+
+  @Post('/signin')
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signIn(body.email, body.password);
   }
 
   // applied on function level
   // @Serialize(UserDto) //custom decorator
-
   // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
   async findUser(@Param('id', ParseIntPipe) id: number) {

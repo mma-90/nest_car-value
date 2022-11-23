@@ -20,7 +20,6 @@ export class UsersService {
 
   async find(email: string) {
     const users = await this.repo.findBy({ email });
-    console.log(users);
     return users;
   }
 
@@ -35,7 +34,7 @@ export class UsersService {
     /*
     Using: delete() -> this.repo.delete(id)
     delete user without work hooks, accept plain object 
-    this.repo.delete({age: 10}) will delete all users that have the same age
+    this.repo.delete({age: 10}) will delete all users that have the same age, effect many rows
     return this.repo.delete(id);
     */
     /*
