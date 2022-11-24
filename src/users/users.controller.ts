@@ -9,8 +9,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
-  Request,
   Session,
   UseInterceptors,
   UseGuards,
@@ -18,7 +16,7 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -28,12 +26,10 @@ import { AuthGuard } from './../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto) // applied on class level
+// @UseInterceptors(new SerializeInterceptor(UserDto))
 @UseInterceptors(CurrentUserInterceptor) // applied for all methods
 export class UsersController {
-  constructor(
-    private userService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private userService: UsersService, private authService: AuthService) {}
 
   @Post('/signup')
   signup(@Body() body: CreateUserDto) {
@@ -41,10 +37,7 @@ export class UsersController {
   }
 
   @Post('/signin')
-  async signin(
-    @Body() body: CreateUserDto,
-    @Session() session: Record<string, any>,
-  ) {
+  async signin(@Body() body: CreateUserDto, @Session() session: Record<string, any>) {
     const user = await this.authService.signIn(body.email, body.password);
     session.userId = user.id;
     return user;
@@ -91,10 +84,7 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateUserDto,
-  ) {
+  updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
     return this.userService.update(id, body);
   }
 
