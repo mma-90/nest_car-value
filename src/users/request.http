@@ -6,7 +6,7 @@ content-type: application/json
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT",
     "password":"password",
-    "email": "ali2@gmail.com"
+    "email": "ali3@gmail.com"
 }
 
 
@@ -16,7 +16,7 @@ content-type: application/json
 
 {
     "email": "hello@gmail.com",
-    "password":"passwords"
+    "password":"password"
 }
 
 ### SIGNOUT

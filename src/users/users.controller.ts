@@ -13,27 +13,24 @@ import {
   Request,
   Session,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import {
-  Serialize,
-  SerializeInterceptor,
-} from 'src/interceptors/serialize.interceptor';
+import { Serialize, SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { User } from './user.entity';
+import { AuthGuard } from './../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto) // applied on class level
+@UseInterceptors(CurrentUserInterceptor) // applied for all methods
 export class UsersController {
-  constructor(
-    private userService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private userService: UsersService, private authService: AuthService) {}
 
   @Post('/signup')
   signup(@Body() body: CreateUserDto) {
@@ -41,10 +38,7 @@ export class UsersController {
   }
 
   @Post('/signin')
-  async signin(
-    @Body() body: CreateUserDto,
-    @Session() session: Record<string, any>,
-  ) {
+  async signin(@Body() body: CreateUserDto, @Session() session: Record<string, any>) {
     const user = await this.authService.signIn(body.email, body.password);
     session.userId = user.id;
     return user;
@@ -61,12 +55,13 @@ export class UsersController {
   // }
 
   /*
-      What I need ? 
-      I need to get current user id from request session and then retrieve it from db using repo service
-      */
+    What I need ? 
+    I need to get current user id from request session and then retrieve it from db using repo service
+    */
 
   @Get('/me')
-  @UseInterceptors(CurrentUserInterceptor)
+  @UseGuards(AuthGuard)
+  // @UseInterceptors(CurrentUserInterceptor)
   whoAmI(@CurrentUser() user: User) {
     return user;
   }
@@ -90,10 +85,7 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateUserDto,
-  ) {
+  updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
     return this.userService.update(id, body);
   }
 
