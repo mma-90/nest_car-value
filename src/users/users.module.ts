@@ -6,7 +6,7 @@ import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // creating user repository
@@ -15,10 +15,10 @@ import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
     UsersService,
     AuthService,
     CurrentUserInterceptor,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: SerializeInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: SerializeInterceptor,
+    // },
   ],
 })
 export class UsersModule {}
