@@ -38,6 +38,8 @@ const cookieSession = require('cookie-session');
   controllers: [AppController],
   providers: [AppService],
 })
+
+// injecting global middlewars to be used in test also
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
