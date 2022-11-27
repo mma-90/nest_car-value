@@ -1,7 +1,6 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler, UseInterceptors } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { UserDto } from 'src/users/dtos/user.dto';
-import { plainToClass, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 // as Serialize take dto: any but it should to be dto class
 // used for typescript to make sure that interceptor receive at least class not string not number ....
@@ -29,6 +28,7 @@ export class SerializeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         // console.log('I run after request handler', data);
+        // I will change res object based on givin dto
         console.log('from serialize interceptor', data);
 
         return plainToInstance(this.dto, data, {

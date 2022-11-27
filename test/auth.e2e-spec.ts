@@ -16,10 +16,10 @@ describe('Auth (e2e)', () => {
   });
 
   it('(POST) /signup', () => {
-    const email = 'm4@m.com';
+    const email = 'm5@m.com';
     return request(app.getHttpServer())
       .post('/auth/signup')
-      .send({ password: 'password', email, x: 'xxxxxxxx' })
+      .send({ password: 'password', email, x: 'xxxxxxxx' }) //x will be ignored by validation pipe
       .expect(201)
       .then((res) => {
         const { email, id } = res.body;

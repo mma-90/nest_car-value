@@ -1,4 +1,5 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -23,6 +24,7 @@ const cookieSession = require('cookie-session');
     //   synchronize: true, //not recommended in production, work as hot fast migration
     // }),
 
+    // using config module env variables
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'sqlite',
@@ -36,10 +38,19 @@ const cookieSession = require('cookie-session');
     ReportsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      // inject global pipe to be able to used in test and development
+      useValue: new ValidationPipe({
+        whitelist: true, // ignore unrecognized request body properties
+      }),
+    },
+  ],
 })
 
-// injecting global middlewars to be used in test also
+// injecting global middleware to be used in test also
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
