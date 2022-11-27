@@ -25,7 +25,6 @@ describe('Auth (e2e)', () => {
       .expect(201)
       .then((res) => {
         const { email, id } = res.body;
-        console.log(res.body);
         expect(id).toBeDefined();
         expect(email).toEqual(email);
       });
