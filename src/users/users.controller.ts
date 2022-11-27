@@ -33,6 +33,7 @@ export class UsersController {
 
   @Post('/signup')
   signup(@Body() body: CreateUserDto) {
+    console.log('🚩 body', body);
     return this.authService.signUp(body.email, body.password);
   }
 
