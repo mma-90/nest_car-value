@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private userService: UsersService) {}
 
   async signUp(email: string, password: string) {
+    console.log(email, password);
     // 1) check email is not used before
     const [user] = await this.userService.find(email);
     if (user) throw new BadRequestException('email are used');

@@ -7,15 +7,31 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Report } from './reports/reports.entity';
 
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      // creating db connection
-      type: 'sqlite', //db type
-      database: 'db.sqlite', //db name
-      entities: [User, Report],
-      synchronize: true, //not recommended in production, work as hot fast migration
+    ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+      isGlobal: true,
     }),
+    // TypeOrmModule.forRoot({
+    //   // creating db connection
+    //   type: 'sqlite', //db type
+    //   database: 'db.sqlite', //db name
+    //   entities: [User, Report],
+    //   synchronize: true, //not recommended in production, work as hot fast migration
+    // }),
+
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'sqlite',
+        database: process.env.DATABASE_NAME,
+        entities: [User, Report],
+        synchronize: true,
+      }),
+    }),
+
     UsersModule,
     ReportsModule,
   ],
