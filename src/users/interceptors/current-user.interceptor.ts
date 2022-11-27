@@ -1,9 +1,4 @@
-import {
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  Injectable,
-} from '@nestjs/common';
+import { NestInterceptor, ExecutionContext, CallHandler, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { UsersService } from './../users.service';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
@@ -11,10 +6,7 @@ import { UnauthorizedException } from '@nestjs/common/exceptions';
 export class CurrentUserInterceptor implements NestInterceptor {
   constructor(private userService: UsersService) {}
 
-  async intercept(
-    context: ExecutionContext,
-    next: CallHandler,
-  ): Promise<Observable<any>> {
+  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     // get userId from request
 
     const req = context.switchToHttp().getRequest();

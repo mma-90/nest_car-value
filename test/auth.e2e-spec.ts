@@ -16,7 +16,9 @@ describe('Auth (e2e)', () => {
   });
 
   it('(POST) /signup', () => {
-    const email = 'm5@m.com';
+    // delete all records first
+
+    const email = 'm@m.com';
     return request(app.getHttpServer())
       .post('/auth/signup')
       .send({ password: 'password', email, x: 'xxxxxxxx' }) //x will be ignored by validation pipe
