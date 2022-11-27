@@ -1,11 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  AfterInsert,
-  AfterRemove,
-  AfterUpdate,
-} from 'typeorm';
+import { Report } from './../reports/reports.entity';
+import { Entity, Column, PrimaryGeneratedColumn, AfterInsert, AfterRemove, AfterUpdate, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -33,4 +27,7 @@ export class User {
   logUpdateUser() {
     console.log(`LOG: Updated user with id ${this.id}`);
   }
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 }

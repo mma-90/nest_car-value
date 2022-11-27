@@ -1,0 +1,13 @@
+### CREATE REPORT
+POST http://localhost:3000/reports/ HTTP/1.1
+content-type: application/json
+
+{
+    "make": "toyota",
+    "model": "yaris",
+    "year": 2012,
+    "millage": 200000,
+    "price": 50000,
+    "lat": 0,
+    "lng": 0
+}

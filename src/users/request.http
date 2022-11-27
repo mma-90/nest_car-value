@@ -15,7 +15,7 @@ POST http://localhost:3000/auth/signin HTTP/1.1
 content-type: application/json
 
 {
-    "email": "hello@gmail.com",
+    "email": "ali4@gmail.com",
     "password":"password"
 }
 

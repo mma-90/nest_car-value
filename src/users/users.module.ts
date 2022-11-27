@@ -14,11 +14,11 @@ import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
   providers: [
     UsersService,
     AuthService,
-    CurrentUserInterceptor,
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: SerializeInterceptor,
-    // },
+    // CurrentUserInterceptor,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CurrentUserInterceptor,
+    },
   ],
 })
 export class UsersModule {}

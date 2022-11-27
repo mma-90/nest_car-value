@@ -11,6 +11,7 @@ import {
   Query,
   Session,
   UseInterceptors,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -27,13 +28,15 @@ import { AuthGuard } from './../guards/auth.guard';
 @Controller('auth')
 @Serialize(UserDto) // applied on class level
 // @UseInterceptors(new SerializeInterceptor(UserDto))
-@UseInterceptors(CurrentUserInterceptor) // applied for all methods
+
+// DISABLED: because it applied globally
+// @UseInterceptors(CurrentUserInterceptor) // applied for all methods
 export class UsersController {
   constructor(private userService: UsersService, private authService: AuthService) {}
 
   @Post('/signup')
   signup(@Body() body: CreateUserDto) {
-    console.log('🚩 body', body);
+    // console.log('🚩 body', body);
     return this.authService.signUp(body.email, body.password);
   }
 
@@ -41,6 +44,7 @@ export class UsersController {
   async signin(@Body() body: CreateUserDto, @Session() session: Record<string, any>) {
     const user = await this.authService.signIn(body.email, body.password);
     session.userId = user.id;
+    // req.user = user;
     return user;
   }
 
