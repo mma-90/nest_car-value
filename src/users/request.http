@@ -6,7 +6,7 @@ content-type: application/json
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT",
     "password":"password",
-    "email": "ali4@gmail.com"
+    "email": "m@m.com"
 }
 
 
@@ -15,7 +15,7 @@ POST http://localhost:3000/auth/signin HTTP/1.1
 content-type: application/json
 
 {
-    "email": "ali4@gmail.com",
+    "email": "m@m.com",
     "password":"password"
 }
 

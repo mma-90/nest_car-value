@@ -27,6 +27,9 @@ export class Report {
   @Column()
   millage: number;
 
+  @Column({ default: false })
+  status: boolean;
+
   @ManyToOne(() => User, (user) => user.reports)
   user: User;
 }
