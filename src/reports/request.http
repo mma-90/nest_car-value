@@ -3,8 +3,8 @@ POST http://localhost:3000/reports/ HTTP/1.1
 content-type: application/json
 
 {
-    "make": "honda",
-    "model": "accord",
+    "make": "suzuki",
+    "model": "ciaz",
     "year": 2012,
     "millage": 200000,
     "price": 50000,
@@ -22,4 +22,4 @@ content-type: application/json
 }
 
 ### Get an estimate for an existing vehicle
-GET http://localhost:3000/reports?make=toyota&model=corolla&lng=0&lat=0&mileage=20000&year=1980
+GET http://localhost:3000/reports?make=honda&model=corolla&lng=0&lat=0&millage=20000&year=1980

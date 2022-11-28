@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Post, Get, Body, UseGuards, Param, Patch } from '@nestjs/common';
+import { Post, Get, Body, UseGuards, Param, Patch, Query } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { CreateReportDto } from './dtos/create-report.dto';
@@ -9,6 +9,7 @@ import { CurrentUserInterceptor } from './../users/interceptors/current-user.int
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ReportDto } from './dtos/report.dto';
 import { IsAdminGuard } from './../guards/isAdmin.guard';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -23,8 +24,8 @@ export class ReportsController {
   }
 
   @Get()
-  getEstimate(@Param() param: any, @CurrentUser() user: User) {
-    return this.reportsService.getEstimate(param, user);
+  getEstimate(@Query() query: GetEstimateDto, @CurrentUser() user: User) {
+    return this.reportsService.getEstimate(query, user);
   }
 
   @Patch(':id')

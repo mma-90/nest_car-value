@@ -5,6 +5,7 @@ import { Report } from './reports.entity';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { User } from './../users/user.entity';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Injectable()
 export class ReportsService {
@@ -18,8 +19,12 @@ export class ReportsService {
     return this.repo.save(report);
   }
 
-  getEstimate(getEstimateDto: any, user: User) {
-    return getEstimateDto;
+  async getEstimate(getEstimateDto: GetEstimateDto, user: User) {
+    return await this.repo
+      .createQueryBuilder('report')
+      .select('*')
+      // .where('report_make = :make', { make: getEstimateDto.make })
+      .getRawMany();
   }
 
   async changeApproval(id: number, status: boolean, user: User) {
