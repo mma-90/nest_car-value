@@ -67,6 +67,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   // @UseInterceptors(CurrentUserInterceptor)
   whoAmI(@CurrentUser() user: User) {
+    console.log(process.env.COOKIE_KEY, process.env.NODE_ENV);
     return user;
   }
 
