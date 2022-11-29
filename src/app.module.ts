@@ -31,9 +31,11 @@ const cookieSession = require('cookie-session');
       useFactory: () => ({
         type: 'sqlite',
         database: process.env.DATABASE_NAME,
-        entities: [User, Report],
+        // entities: [User, Report],
+        autoLoadEntities: true, // this will load all entities that their module inject TypeOrmModule.forFeature()
         synchronize: true,
       }),
+      inject: [ConfigService],
     }),
 
     UsersModule,
